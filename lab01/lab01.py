@@ -49,6 +49,7 @@ def multiples_of_3_and_5(n):
     for i in range(1,n):
         if i % 3 == 0 or i % 5 == 0:
             total += i
+    return total
     pass
 
 # (3 points)
