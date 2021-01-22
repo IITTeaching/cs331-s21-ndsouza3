@@ -25,7 +25,7 @@ def is_perfect(n):
     total = 0
     for i in range(n + 1//2):
         if n % i == 0:
-            total += n
+            total += i
     return n == total
     pass
 
