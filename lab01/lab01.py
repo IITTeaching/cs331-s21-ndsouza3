@@ -45,6 +45,10 @@ def test1():
 
 # implement this function
 def multiples_of_3_and_5(n):
+    total = 0
+    for i in range(1,n):
+        if i % 3 == 0 or i % 5 == 0:
+            total += i
     pass
 
 # (3 points)
@@ -58,8 +62,16 @@ def test2():
 # EXERCISE 3
 #################################################################################
 def integer_right_triangles(p):
+    total = 0
+    for i in range(1,p-2):
+        for j in range(1, p - i - 1):
+            k = p - i - j
+            if k < 1:
+                continue
+            if  i*i + k*k == j*j or j*j + k*k == i*i or i*i + j*j == k*k:
+                total +=1
+    return total/6
     pass
-
 def test3():
     tc = unittest.TestCase()
     tc.assertEqual(integer_right_triangles(60), 2)
@@ -72,7 +84,15 @@ def test3():
 
 # implement this function
 def gen_pattern(chars):
+    for i in range(1,len(chars) + 1):
+        print('.'.join(chars[-i:-1] + chars[-1]).center((len(chars) - 1) * 4 + 1,"."))
     pass
+def gen_row(chars,num):
+    ans = ""
+    for i in range(2,num + 1):
+        ans += chars[-i]
+    return ans
+
 
 def test4():
     with captured_output() as (out,err):
