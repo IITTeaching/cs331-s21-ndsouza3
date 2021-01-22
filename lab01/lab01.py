@@ -84,14 +84,21 @@ def test3():
 
 # implement this function
 def gen_pattern(chars):
+    ans = ''
     for i in range(1,len(chars) + 1):
-        print('.'.join(chars[-i:-1] + chars[-1]).center((len(chars) - 1) * 4 + 1,"."))
+        ans += ('.'.join(gen_row(chars,i)).center((len(chars) - 1) * 4 + 1,".")) + "\n"
+    for i in range(len(chars) -1,0,-1):
+        ans += ('.'.join(gen_row(chars,i)).center((len(chars) - 1) * 4 + 1,".")) + "\n"
+    return ans
     pass
 def gen_row(chars,num):
     ans = ""
-    for i in range(2,num + 1):
+    for i in range(1,num + 1):
         ans += chars[-i]
+    for i in range(num,1,-1):
+        ans += chars[-i + 1]    
     return ans
+
 
 
 def test4():
