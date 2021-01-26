@@ -90,7 +90,7 @@ def gen_pattern(chars):
         ans += ('.'.join(gen_row(chars,i)).center((len(chars) - 1) * 4 + 1,".")) + "\n"
     for i in range(len(chars) -1,0,-1):
         ans += ('.'.join(gen_row(chars,i)).center((len(chars) - 1) * 4 + 1,".")) + "\n"
-    return ans
+    print(ans)
     pass
 def gen_row(chars,num):
     ans = ""
