@@ -1,4 +1,8 @@
-from unittest import TestCase
+x=10;
+y=25;
+z=x+y;
+
+print ("sum of x+y =", z);from unittest import TestCase
 import random
 import urllib.request
 
@@ -34,10 +38,26 @@ ROMEO_SOLILOQUY = """
 # Implement this function
 def compute_ngrams(toks, n=2):
     """Returns an n-gram dictionary based on the provided list of tokens."""
-    words = toks.split(" ")
-    gramSet = {}
-    for i in words:
+    words = toks
+    gramSet = set()
+    for i in words: #create a list of words with no repeats
         gramSet.add(i)
+    ans = {} #defines n-gram dictionairy to be returned
+    for gram in gramSet:
+        ans[gram] = []
+        counter = 0
+        currentTuple = []
+        for word in words:
+            if counter > 0:
+                currentTuple.append(word)
+                counter -= 1
+            if counter == 0 and len(currentTuple) > 0: #todo: deal with double words
+                ans[gram].append(tuple(currentTuple))
+                currentTuple = []
+            if word == gram:
+                counter = n
+    return ans
+        
     pass
 
 def test1():
