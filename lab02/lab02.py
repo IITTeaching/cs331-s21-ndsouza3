@@ -34,6 +34,10 @@ ROMEO_SOLILOQUY = """
 # Implement this function
 def compute_ngrams(toks, n=2):
     """Returns an n-gram dictionary based on the provided list of tokens."""
+    words = toks.split(" ")
+    gramSet = {}
+    for i in words:
+        gramSet.add(i)
     pass
 
 def test1():
