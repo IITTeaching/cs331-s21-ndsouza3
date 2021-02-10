@@ -113,20 +113,20 @@ def gen_passage(ngram_dict, length=100):
   ans = ""
   currentLength = 1
   currentToken = random.choice(sorted(ngram_dict.keys()))
-  ans+=currentToken
+  ans+=currentToken + " "
   nextToken = ""
   while currentLength < length:
       if currentToken not in ngram_dict:
-        curentToken = random.choice(sorted(ngram_dict.keys()))
-        ans+=currentToken
-        currentLength +=1
+        currentToken = random.choice(sorted(ngram_dict.keys()))
+        ans+=currentToken + " "
+        currentLength += 1
         if currentLength == length:
-          return ans
+          return ans[:-1]
       for token in random.choice(ngram_dict[currentToken]):
-        ans+=token
+        ans+=token + " "
         currentLength+=1
         if currentLength == length:
-          return ans
+          return ans[:-1]
         nextToken = token
       currentToken = nextToken
   pass
@@ -146,7 +146,7 @@ def test2():
                    'too bold, \'tis not night. see, how she leans her')
 
 def main():
-    #test1()
+    test1()
     test2()
 
 if __name__ == '__main__':
