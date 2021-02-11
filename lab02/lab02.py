@@ -1,8 +1,4 @@
-x=10;
-y=25;
-z=x+y;
-
-print ("sum of x+y =", z);from unittest import TestCase
+from unittest import TestCase
 import random
 import urllib.request
 
@@ -38,26 +34,23 @@ ROMEO_SOLILOQUY = """
 # Implement this function
 def compute_ngrams(toks, n=2):
     """Returns an n-gram dictionary based on the provided list of tokens."""
-    words = toks
-    gramSet = set()
-    for i in words: #create a list of words with no repeats
-        gramSet.add(i)
+    tokSet = set(toks[:-n+1])
+
     ans = {} #defines n-gram dictionairy to be returned
-    for gram in gramSet:
-        ans[gram] = []
-        counter = 0
-        currentTuple = []
-        for word in words:
-            if counter > 0:
-                currentTuple.append(word)
-                counter -= 1
-            if counter == 0 and len(currentTuple) > 0: #todo: deal with double words
-                ans[gram].append(tuple(currentTuple))
-                currentTuple = []
-            if word == gram:
-                counter = n
+    for startToken in tokSet:
+        ans[startToken] = []
+        for i in range(len(toks)):
+            currentToken = toks[i]
+            if currentToken == startToken:
+                gramList = []
+                for j in range(1,n):
+                    if i + j >= len(toks):
+                        break
+                    gramList.append(toks[i+j])
+                if (len(gramList) > 0):
+                    gTuple = tuple(gramList)
+                    ans[startToken].append(gTuple)
     return ans
-        
     pass
 
 def test1():
@@ -117,7 +110,26 @@ def test1_2():
 ################################################################################
 # Implement this function
 def gen_passage(ngram_dict, length=100):
-    pass
+  ans = ""
+  currentLength = 1
+  currentToken = random.choice(sorted(ngram_dict.keys()))
+  ans+=currentToken + " "
+  nextToken = ""
+  while currentLength < length:
+      if currentToken not in ngram_dict:
+        currentToken = random.choice(sorted(ngram_dict.keys()))
+        ans+=currentToken + " "
+        currentLength += 1
+        if currentLength == length:
+          return ans[:-1]
+      for token in random.choice(ngram_dict[currentToken]):
+        ans+=token + " "
+        currentLength+=1
+        if currentLength == length:
+          return ans[:-1]
+        nextToken = token
+      currentToken = nextToken
+  pass
 
 # 50 Points
 def test2():
@@ -139,3 +151,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    pass
