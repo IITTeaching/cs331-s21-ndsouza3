@@ -7,8 +7,7 @@ S = TypeVar('S')
 
 #################################################################################
 # EXERCISE 1
-#################################################################################
-def mysort(lst: List[T], compare: Callable[[T, T], int]) -> List[T]:
+#################################################################################def mysort(lst: List[T], compare: Callable[[T, T], int]) -> List[T]:
     """
     This method should sort input list lst of elements of some type T.
 
@@ -19,11 +18,15 @@ def mysort(lst: List[T], compare: Callable[[T, T], int]) -> List[T]:
     """
     nlst = []
     for i in lst:
-        for newIndex in range(len(lst)):
+        for newIndex in range(len(nlst)):
             if i < nlst[newIndex]:
+                nlst.insert(newIndex,i)
+                break
+            elif newIndex == len(nlst) - 1:
                 nlst.append(i)
-                continue
-        nlist.append(i)
+        if len(nlst) == 0:
+            nlst.append(i)
+    return nlst
 
 def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     """
@@ -33,6 +36,17 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     position of the first (leftmost) match for elem in lst. If elem does not
     exist in lst, then return -1.
     """
+    upper = len(lst)
+    lower = 0
+    while upper > lower:
+        i = (upper + lower) // 2
+        if lst[i] > elem:
+            up = i
+        elif lst[i] < elem:
+            lower = i
+        elif lst[i] == elem:
+            return i
+    return -1;
     pass
 
 class Student():
