@@ -17,7 +17,13 @@ def mysort(lst: List[T], compare: Callable[[T, T], int]) -> List[T]:
     right element, 1 if the left is larger than the right, and 0 if the two
     elements are equal.
     """
-    pass
+    nlst = []
+    for i in lst:
+        for newIndex in range(len(lst)):
+            if i < nlst[newIndex]:
+                nlst.append(i)
+                continue
+        nlist.append(i)
 
 def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     """
