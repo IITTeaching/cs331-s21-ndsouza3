@@ -37,15 +37,15 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     position of the first (leftmost) match for elem in lst. If elem does not
     exist in lst, then return -1.
     """
-    upper = len(lst)
+    upper = len(lst) - 1
     lower = 0
-    while upper > lower:
-        i = (upper + lower) // 2
-        if lst[i] > elem:
-            up = i
-        elif lst[i] < elem:
-            lower = i
-        elif lst[i] == elem:
+    while upper >= lower:
+        i = ((upper + lower) // 2)
+        if compare(lst[i],elem) == 1:
+            upper = i - 1
+        elif compare(lst[i],elem) == -1:
+            lower = i + 1
+        elif compare(lst[i],elem) == 0:
             return i
     return -1;
     pass
