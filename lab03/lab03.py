@@ -133,6 +133,13 @@ class PrefixSearcher():
         Initializes a prefix searcher using a document and a maximum
         search string length k.
         """
+        self.lst = []
+        for i in range(len(document)):
+            if (i+3 >= len(document)):
+                self.lst.append(document[i:len(document)])
+            else:
+                self.lst.append(document[i:i+3])
+        mysort(self.lst)
         pass
 
     def search(self, q):
@@ -142,6 +149,9 @@ class PrefixSearcher():
         length up to n). If q is longer than n, then raise an
         Exception.
         """
+        if len(q) > self.lst[i]:
+            raise Exception("string too long")
+        
         pass
 
 # 30 Points
@@ -241,4 +251,4 @@ def main():
     test3()
 
 if __name__ == '__main__':
-    main()
+    test1()
