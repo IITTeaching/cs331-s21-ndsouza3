@@ -37,15 +37,15 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     position of the first (leftmost) match for elem in lst. If elem does not
     exist in lst, then return -1.
     """
-    upper = len(lst)
+    upper = len(lst) - 1
     lower = 0
-    while upper > lower:
-        i = (upper + lower) // 2
-        if lst[i] > elem:
-            up = i
-        elif lst[i] < elem:
-            lower = i
-        elif lst[i] == elem:
+    while upper >= lower:
+        i = ((upper + lower) // 2)
+        if compare(lst[i],elem) == 1:
+            upper = i - 1
+        elif compare(lst[i],elem) == -1:
+            lower = i + 1
+        elif compare(lst[i],elem) == 0:
             return i
     return -1;
     pass
@@ -133,6 +133,13 @@ class PrefixSearcher():
         Initializes a prefix searcher using a document and a maximum
         search string length k.
         """
+        self.lst = []
+        for i in range(len(document)):
+            if (i+3 >= len(document)):
+                self.lst.append(document[i:len(document)])
+            else:
+                self.lst.append(document[i:i+3])
+        mysort(self.lst)
         pass
 
     def search(self, q):
@@ -142,6 +149,9 @@ class PrefixSearcher():
         length up to n). If q is longer than n, then raise an
         Exception.
         """
+        if len(q) > self.lst[i]:
+            raise Exception("string too long")
+        
         pass
 
 # 30 Points
@@ -241,4 +251,4 @@ def main():
     test3()
 
 if __name__ == '__main__':
-    main()
+    test1()
