@@ -1,4 +1,4 @@
-#import urllib.request
+import urllib.request
 import unittest
 from typing import TypeVar, Callable, List
 
@@ -135,6 +135,7 @@ class PrefixSearcher():
         search string length k.
         """
         self.lst = []
+        self.k = k
         for i in range(len(document)):
             if (i+3 >= len(document)):
                 self.lst.append(document[i:len(document)])
@@ -155,8 +156,9 @@ class PrefixSearcher():
         for i in self.lst:
             if len(i) >= len(q):
                 nLst.append(i[0:len(q)])
+        
         strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
-        if len(q) > len(nLst[0]):
+        if len(q) > self.k:
             raise Exception("string too long")
         return mybinsearch(nLst, q, strcmp) != -1
         pass
