@@ -37,7 +37,6 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     position of the first (leftmost) match for elem in lst. If elem does not
     exist in lst, then return -1.
     """
-    
     upper = len(lst) - 1
     lower = 0
     while upper >= lower:
@@ -47,7 +46,9 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
         elif compare(lst[i],elem) == -1:
             lower = i + 1
         elif compare(lst[i],elem) == 0:
-            return i
+            while (i > 0 and compare(lst[i],elem) == 0):
+              i-= 1
+            return i + 1
     return -1;
     pass
 
@@ -202,6 +203,10 @@ class SuffixArray():
         """
         Creates a suffix array for document (a string).
         """
+        self.document = document
+        self.suffixArray = list(range(0,len(document)-1))
+        suffixCompare = lambda x,y: 1 if self.document[x:] > self.document[y:] else(-1 if self.document[x:] < self.document[y:] else 0)
+        self.suffixArray = mysort(self.suffixArray,suffixCompare)
         pass
 
 
@@ -209,12 +214,21 @@ class SuffixArray():
         """
         Returns all the positions of searchstr in the documented indexed by the suffix array.
         """
+        newSuffix = []
+        for i in self.suffixArray:
+          if not (len(self.document[i:]) >= len(searchstr)):
+            newSuffix.append(i)
+        
+        suffixCompare = lambda x,y: 1 if(self.document[x:x+len(searchstr)] > y) else(-1 if self.document[x:x+len(searchstr)] < y else 0)
+
+        return [mybinsearch(self.suffixArray, searchstr,suffixCompare)]
         pass
 
     def contains(self, searchstr: str):
         """
         Returns true if searchstr is contained in document.
         """
+        return self.positions(searchstr) != [-1]
         pass
 
 # 40 Points
@@ -259,4 +273,4 @@ def main():
     test3()
 
 if __name__ == '__main__':
-    test2()
+    main()
