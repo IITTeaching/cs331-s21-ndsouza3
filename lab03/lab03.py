@@ -37,6 +37,7 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     position of the first (leftmost) match for elem in lst. If elem does not
     exist in lst, then return -1.
     """
+    
     upper = len(lst) - 1
     lower = 0
     while upper >= lower:
@@ -134,12 +135,14 @@ class PrefixSearcher():
         search string length k.
         """
         self.lst = []
+        self.k = k
         for i in range(len(document)):
-            if (i+3 >= len(document)):
+            if (i+k >= len(document)):
                 self.lst.append(document[i:len(document)])
             else:
-                self.lst.append(document[i:i+3])
-        mysort(self.lst)
+                self.lst.append(document[i:i+k])
+        strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
+        self.lst = mysort(self.lst,strcmp)
         pass
 
     def search(self, q):
@@ -149,9 +152,14 @@ class PrefixSearcher():
         length up to n). If q is longer than n, then raise an
         Exception.
         """
-        if len(q) > self.lst[i]:
+        nLst = []
+        for i in self.lst:
+            if len(i) >= len(q):
+                nLst.append(i[0:len(q)])
+        strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
+        if len(q) > self.k:
             raise Exception("string too long")
-        
+        return mybinsearch(nLst, q, strcmp) != -1
         pass
 
 # 30 Points
@@ -205,7 +213,7 @@ class SuffixArray():
 
     def contains(self, searchstr: str):
         """
-        Returns true of searchstr is coontained in document.
+        Returns true if searchstr is contained in document.
         """
         pass
 
@@ -251,4 +259,4 @@ def main():
     test3()
 
 if __name__ == '__main__':
-    test1()
+    test2()
