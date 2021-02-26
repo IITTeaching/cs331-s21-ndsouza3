@@ -137,10 +137,10 @@ class PrefixSearcher():
         self.lst = []
         self.k = k
         for i in range(len(document)):
-            if (i+3 >= len(document)):
+            if (i+k >= len(document)):
                 self.lst.append(document[i:len(document)])
             else:
-                self.lst.append(document[i:i+3])
+                self.lst.append(document[i:i+k])
         strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
         self.lst = mysort(self.lst,strcmp)
         pass
@@ -156,7 +156,6 @@ class PrefixSearcher():
         for i in self.lst:
             if len(i) >= len(q):
                 nLst.append(i[0:len(q)])
-        
         strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
         if len(q) > self.k:
             raise Exception("string too long")
@@ -260,4 +259,4 @@ def main():
     test3()
 
 if __name__ == '__main__':
-    main()
+    test2()
