@@ -116,6 +116,11 @@ class ArrayList:
         returns `str(x)` for all values `x` in this list, separated by commas
         and enclosed by square brackets. E.g., for a list containing values
         1, 2 and 3, returns '[1, 2, 3]'."""
+        ans = "["
+        for i in self.data:
+          ans += str(i)
+          ans +=", "
+        ans = ans[0:-2]+"]"
         ### BEGIN SOLUTION
         ### END SOLUTION
 
