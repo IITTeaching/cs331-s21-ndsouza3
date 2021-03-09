@@ -157,7 +157,7 @@ class ArrayList:
         for i in range(0,idx):
           newData[i] = self.data[i]
         newData[idx] = value
-        for i in range(idx + 1,len(self)):
+        for i in range(idx + 1,len(self)+1):
           newData[i] = self.data[i-1]
         self.data=newData
         self.len+=1
@@ -179,7 +179,7 @@ class ArrayList:
         """Removes the first (closest to the front) instance of value from the
         list. Raises a ValueError if value is not found in the list."""
         ### BEGIN SOLUTION
-        for i in range(0,self(len)):
+        for i in range(0,len(self)):
           if self.data[i] == value:
             self.pop(i)
             return
