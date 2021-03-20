@@ -262,6 +262,7 @@ def test3_2():
     tc.assertTrue(s.contains("Moby-Dick"))
     tc.assertTrue(s.contains("Herman Melville"))
 <<<<<<< HEAD
+<<<<<<< HEAD
     pos = s.positions("Moby Dick")
     posset = set(pos)
     tc.assertTrue(posset == {427} or posset == {427,428}  or posset == {428})
@@ -270,6 +271,11 @@ def test3_2():
     tc.assertEqual(posset, {355, 356})
 
 >>>>>>> 510e22a975f6dab2cb5e6d567c1e36a37e3e9033
+=======
+    posset = set(s.positions("Moby-Dick"))
+    tc.assertEqual(posset, {355, 356})
+
+>>>>>>> 2573057ee0687ca1d030418a45f8c6166d9a90b2
 
 #################################################################################
 # TEST CASES
