@@ -53,6 +53,17 @@ class HBStree:
         KeyError, if key does not exist.
         """
         # BEGIN SOLUTION
+        current = self.root_versions[-1]
+        while True:
+          if current == None:
+            raise KeyError("easter egg")
+          if current.val < key:
+            current = current.right
+          elif current.val > key:
+            current = current.left
+          else:
+            return current
+
         # END SOLUTION
 
     def __contains__(self, el):
@@ -60,6 +71,16 @@ class HBStree:
         Return True if el exists in the current version of the tree.
         """
         # BEGIN SOLUTION
+        current = self.root_versions[-1]
+        while True:
+          if current == None:
+            return False
+          if current.val < el:
+            current = current.right
+          elif current.val > el:
+            current = current.left
+          else:
+            return True
         # END SOLUTION
 
     def insert(self,key):
@@ -68,12 +89,41 @@ class HBStree:
         tree. If key already exists, then do nothing and refrain
         from creating a new version.
         """
+        
         # BEGIN SOLUTION
+        def insert2ElectricBoogaloo(node, val):
+          if not node:
+            return self.INode(val, None, None)
+          elif val > node.val:
+            return self.INode(node.val, node.left, insert2ElectricBoogaloo(node.right, val))
+          elif val < node.val:
+            return self.INode(node.val, insert2ElectricBoogaloo(node.left, val), node.right)
+        if not key in self:
+          if len(self) == 0:
+            self.root_versions.append(self.INode(key, None, None))
+          else:
+            self.root_versions.append(insert2ElectricBoogaloo(self.root_versions[-1], key))
         # END SOLUTION
 
     def delete(self,key):
         """Delete key from the tree, creating a new version of the tree. If key does not exist in the current version of the tree, then do nothing and refrain from creating a new version."""
         # BEGIN SOLUTION
+        def delete2ElectricBoogaloo(node, val):
+          if val > node.val:
+            return self.INode(node.val, node.left, delete2ElectricBoogaloo(node.right, val))
+          elif val < node.val:
+            return self.INode(node.val, delete2ElectricBoogaloo(node.left, val), node.right)
+          else:
+            if not node.right:
+              return node.left
+            if not node.left:
+              return node.right
+            min = node.right
+            while min.left:
+              min = min.left
+            return self.INode(min.val, node.left, delete2ElectricBoogaloo(node.right, min.val))
+        if key in self:
+          self.root_versions.append(delete2ElectricBoogaloo(self.root_versions[-1],key))
         # END SOLUTION
 
     @staticmethod
@@ -145,6 +195,18 @@ class HBStree:
         if timetravel < 0 or timetravel >= len(self.root_versions):
             raise IndexError(f"valid versions for time travel are 0 to {len(self.root_versions) -1}, but was {timetravel}")
         # BEGIN SOLUTION
+        def orderedList(node):
+          lst = []
+          if node.left:
+            lst += orderedList(node.left)
+          lst += [node.val]
+          if node.right:
+            lst += orderedList(node.right)
+          return lst
+        if len(self.root_versions) - 1 == timetravel or len(self) == 0:
+          return iter([])
+        return iter(orderedList(self.root_versions[len(self.root_versions) - timetravel - 1]))
+          
         # END SOLUTION
 
     @staticmethod
@@ -210,7 +272,6 @@ def check_inserted(vals):
 
     for v in vals:
         t.insert(v)
-
     for i in range(0,len(vals) + 1):
         sortel = [ v for v in t.version_iter(len(vals) - i) ]
         sortval = sorted(vals[0:i])
