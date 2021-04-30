@@ -202,7 +202,7 @@ class HBStree:
           if node.right:
             yield from orderedList(node.right)
         if len(self.root_versions) - 1 == timetravel or len(self) == 0:
-          return iter([])
+          return iter(())
         return iter(orderedList(self.root_versions[len(self.root_versions) - timetravel - 1]))
           
         # END SOLUTION
