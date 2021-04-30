@@ -196,13 +196,11 @@ class HBStree:
             raise IndexError(f"valid versions for time travel are 0 to {len(self.root_versions) -1}, but was {timetravel}")
         # BEGIN SOLUTION
         def orderedList(node):
-          lst = []
           if node.left:
-            lst += orderedList(node.left)
-          lst += [node.val]
+            yield from orderedList(node.left)
+          yield node.val
           if node.right:
-            lst += orderedList(node.right)
-          return lst
+            yield from orderedList(node.right)
         if len(self.root_versions) - 1 == timetravel or len(self) == 0:
           return iter([])
         return iter(orderedList(self.root_versions[len(self.root_versions) - timetravel - 1]))
