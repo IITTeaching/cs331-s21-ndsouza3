@@ -1,12 +1,14 @@
 from unittest import TestCase
 import random
 
+
 class AVLTree:
     class Node:
         def __init__(self, val, left=None, right=None):
             self.val = val
             self.left = left
             self.right = right
+            
 
         def rotate_right(self):
             n = self.left
@@ -15,6 +17,9 @@ class AVLTree:
 
         def rotate_left(self):
             ### BEGIN SOLUTION
+            n = self.right
+            self.val, n.val = n.val, self.val
+            self.right, n.right, self.left, n.left = n.right, n.left, n, self.left
             ### END SOLUTION
 
         @staticmethod
@@ -28,19 +33,65 @@ class AVLTree:
         self.size = 0
         self.root = None
 
-    @staticmethod
-    def rebalance(t):
+    #@staticmethod
+    def rebalance(self,t):
         ### BEGIN SOLUTION
+        lHeight = height(t.left)
+        rHeight = height(t.right)
+        if lHeight-rHeight >= 2:
+          if t.left and height(t.left.right) - height(t.left.left) >= 1:
+            t.left.rotate_left()
+          t.rotate_right()
+        elif rHeight-lHeight >= 2:
+          if t.right and height(t.right.left) - height(t.right.right) >= 1:
+            t.right.rotate_right()
+          t.rotate_left()
         ### END SOLUTION
 
     def add(self, val):
         assert(val not in self)
         ### BEGIN SOLUTION
+        def insert2ElectricBoogaloo(node, val):
+          if not node:
+            return self.Node(val)
+          elif val > node.val:
+            node.right = insert2ElectricBoogaloo(node.right, val)
+          elif val < node.val:
+            node.left = insert2ElectricBoogaloo(node.left, val)
+          self.rebalance(node)
+          return node
+        
+        if self.size == 0:
+          self.root = self.Node(val)
+        else:
+          insert2ElectricBoogaloo(self.root, val)
+        self.size += 1
         ### END SOLUTION
 
     def __delitem__(self, val):
         assert(val in self)
         ### BEGIN SOLUTION
+        def delete2ElectricBoogaloo(node, val):
+          if not node:
+            return node
+          if val > node.val:
+            node.right = delete2ElectricBoogaloo(node.right, val)
+          elif val < node.val:
+            node.left = delete2ElectricBoogaloo(node.left, val)
+          else:
+            if not node.right:
+              return node.left
+            if not node.left:
+              return node.right
+            min = node.right
+            while min.left:
+              min = min.left
+            node.val = min.val
+            node.right = delete2ElectricBoogaloo(node.right, min.val)
+          self.rebalance(node)
+          return node
+        self.root = delete2ElectricBoogaloo(self.root, val)
+        self.size -= 1
         ### END SOLUTION
 
     def __contains__(self, val):
@@ -133,7 +184,6 @@ def test_rr_fix_simple():
 
     for x in [1, 2, 3]:
         t.add(x)
-
     tc.assertEqual(height(t.root), 2)
     tc.assertEqual([t.root.left.val, t.root.val, t.root.right.val], [1, 2, 3])
 
@@ -145,7 +195,6 @@ def test_lr_fix_simple():
 
     for x in [3, 1, 2]:
         t.add(x)
-
     tc.assertEqual(height(t.root), 2)
     tc.assertEqual([t.root.left.val, t.root.val, t.root.right.val], [1, 2, 3])
 
