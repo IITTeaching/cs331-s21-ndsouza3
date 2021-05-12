@@ -1,23 +1,60 @@
 from unittest import TestCase
 import random
+import statistics
 
 def quicksort(lst,pivot_fn):
     qsort(lst,0,len(lst) - 1,pivot_fn)
 
 def qsort(lst,low,high,pivot_fn):
     ### BEGIN SOLUTION
+    if low >= high:
+      return
+    pivot = pivot_fn(lst,low,high)
+    pivotIndex = low
+    pivotVal = lst[pivot]
+    
+    for i in range(low,high+1):
+      i = lst[i]
+      if i < lst[pivot]:
+        pivotIndex += 1
+    lst[pivot],lst[pivotIndex] = lst[pivotIndex],lst[pivot]
+    itemsToSwapLeft = []
+    itemsToSwapRight = []
+    for i in range(low,pivotIndex):
+      if lst[i] > pivotVal:
+        itemsToSwapLeft.append(i)
+    for i in range(pivotIndex+1,high+1):
+      if lst[i] <= pivotVal:
+        itemsToSwapRight.append(i)
+    for i in range(len(itemsToSwapLeft)):
+      lst[itemsToSwapLeft[i]], lst[itemsToSwapRight[i]] = lst[itemsToSwapRight[i]], lst[itemsToSwapLeft[i]]
+    
+    qsort(lst,low,pivotIndex-1,pivot_fn)
+    qsort(lst,pivotIndex+1,high,pivot_fn)
+      
+        
     ### END SOLUTION
 
 def pivot_first(lst,low,high):
     ### BEGIN SOLUTION
+    return low
     ### END SOLUTION
 
 def pivot_random(lst,low,high):
     ### BEGIN SOLUTION
+    return random.randrange(low, high, 1)
     ### END SOLUTION
 
 def pivot_median_of_three(lst,low,high):
     ### BEGIN SOLUTION
+    pivotLst = []
+    for i in range(3):
+      pivotLst.append(pivot_random(lst,low,high))
+    nLst = [None,None,None]
+    for i in range(3):
+      pivotLst[i] = pivotLst[i]
+      nLst[i] = lst[pivotLst[i]]
+    return pivotLst[nLst.index(statistics.median(nLst))]
     ### END SOLUTION
 
 ################################################################################
